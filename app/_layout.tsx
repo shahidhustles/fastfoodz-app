@@ -1,3 +1,5 @@
+import LoadingScreen from "@/components/loading-screen";
+import useUser from "@/store/auth.store";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
@@ -12,9 +14,18 @@ export default function RootLayout() {
     "QuickSand-Light": require("../assets/fonts/Quicksand-Light.ttf"),
   });
 
+  const { isLoading, fetchAuthenticatedUser } = useUser();
+
   useEffect(() => {
     if (error) throw error;
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
+
+  useEffect(() => {
+    fetchAuthenticatedUser();
+  }, [fetchAuthenticatedUser]);
+
+  //dont load the screen until the things are loaded
+  if (isLoading || !fontsLoaded) return <LoadingScreen />;
   return <Stack screenOptions={{ headerShown: false }} />;
 }

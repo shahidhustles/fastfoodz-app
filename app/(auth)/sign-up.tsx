@@ -1,12 +1,14 @@
 import { createUser } from "@/actions/create-user";
 import CustomBtn from "@/components/custom-btn";
 import CustomInput from "@/components/custom-input";
+import useUser from "@/store/auth.store";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { Alert, Text, View } from "react-native";
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form, setForm] = useState({ email: "", password: "", name: "" });
+  const { fetchAuthenticatedUser } = useUser();
 
   const submit = async () => {
     if (!form.email || !form.password || !form.name) {
@@ -17,8 +19,13 @@ const SignUp = () => {
 
     try {
       await createUser({ ...form });
+      // Update the authentication state after successful sign-up
+      await fetchAuthenticatedUser();
       Alert.alert("Success", "User Signed Up Successfully");
-      router.replace("/");
+      // Small delay to ensure state is updated before navigation
+      setTimeout(() => {
+        router.replace("/");
+      }, 100);
     } catch (error: any) {
       Alert.alert("Error", error.message);
     } finally {

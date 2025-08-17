@@ -18,6 +18,7 @@ export const getCurrentUser = async () => {
       throw new Error("No user with this accountId found in database");
     }
 
+    // console.log(currentUser.documents[0]);
     return currentUser.documents[0];
   } catch (error) {
     console.log(error);
