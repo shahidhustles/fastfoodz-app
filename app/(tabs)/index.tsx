@@ -13,13 +13,31 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
-  
   return (
     <SafeAreaView className="flex-1 bg-white">
       <FlatList
         data={offers}
+        contentContainerClassName="pb-28 px-5"
+        ListHeaderComponent={() => (
+          <View className="flex-between flex-row w-full my-5">
+            <View className="flex-start">
+              <Text className="small-bold text-primary">DELIVER TO</Text>
+              <TouchableOpacity className="flex-row flex-center gap-x-1 mt-0.5">
+                <Text className="paragraph-bold text-dark-100">
+                  Pune, India
+                </Text>
+                <Image
+                  source={images.arrowDown}
+                  className="size-3"
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+            <CartButton />
+          </View>
+        )}
         renderItem={({ item, index }) => {
-          const isEven: boolean = index % 2 === 0 ? true : false;
+          const isEven: boolean = index % 2 === 0;
 
           return (
             <View>
@@ -29,11 +47,9 @@ export default function Index() {
                   "offer-card",
                   isEven ? "flex-row-reverse" : "flex-row"
                 )}
-                style={{
-                  backgroundColor: item.color,
-                }}
+                style={{ backgroundColor: item.color }}
               >
-                {({ pressed }) => (
+                {() => (
                   <React.Fragment>
                     <View className="h-full w-1/2">
                       <Image
@@ -44,11 +60,14 @@ export default function Index() {
                     </View>
                     <View
                       className={cn(
-                        "offer-card__info ",
-                        isEven ? "pl-10" : "pr-10"
+                        "offer-card__info",
+                        isEven ? "pl-6" : "pr-6"
                       )}
                     >
-                      <Text className="h1-bold text-white leading-tight">
+                      <Text
+                        className="h1-bold text-white leading-tight"
+                        numberOfLines={2}
+                      >
                         {item.title}
                       </Text>
                       <Image
@@ -64,29 +83,7 @@ export default function Index() {
             </View>
           );
         }}
-        contentContainerClassName="pb-28 px-5 "
-        ListHeaderComponent={() => {
-          return (
-            <View className="flex-between flex-row w-full my-5 px-5">
-              <View className="flex-start">
-                <Text className="small-bold text-primary">DELIVER TO</Text>
-                {/* this is a btn */}
-                <TouchableOpacity className="flex-row flex-center gap-x-1 mt-0.5">
-                  {/* TODO : Make it dynamic */}
-                  <Text className="paragraph-bold text-dark-100">
-                    Pune, India
-                  </Text>
-                  <Image
-                    source={images.arrowDown}
-                    className="size-3"
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
-              </View>
-              <CartButton />
-            </View>
-          );
-        }}
+        keyExtractor={(item) => String(item.id)}
       />
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import { signIn } from "@/actions/sign-in-user";
+import { signIn } from "@/actions/auth/sign-in-user";
 import CustomBtn from "@/components/custom-btn";
 import CustomInput from "@/components/custom-input";
 import useUser from "@/store/auth.store";

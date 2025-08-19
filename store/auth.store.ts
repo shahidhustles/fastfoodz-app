@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/actions/get-user";
+import { getCurrentUser } from "@/actions/auth/get-user";
 import { User } from "@/type";
 import { create } from "zustand";
 
